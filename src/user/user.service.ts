@@ -9,29 +9,41 @@ export class UserService {
     @InjectModel('User') private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async all() {
-    return await this.userModel.find().exec();
-  }
-
   async getUsers(): Promise<User[]> {
-    const users = await this.userModel.find();
-    return users;
+    try {
+      const users = await this.userModel.find();
+      return users;
+    } catch (error) {
+      console.log('error en getUsers', error);
+    }
   }
 
   async getUserById(id: string): Promise<User> {
-    const user = await this.userModel.findById(id);
-    return user;
+    try {
+      const user = await this.userModel.findById(id);
+      return user;
+    } catch (error) {
+      console.log('error en getUserById', error);
+    }
   }
 
   async createUser(user: User): Promise<User> {
-    const newUser = new this.userModel(user);
-    return await newUser.save();
+    try {
+      const newUser = new this.userModel(user);
+      return await newUser.save();
+    } catch (error) {
+      console.log('error en createUser', error);
+    }
   }
 
   async updateUser(id: string, user: User): Promise<User> {
-    const updatedUser = await this.userModel.findByIdAndUpdate(id, user, {
-      new: true,
-    });
-    return updatedUser;
+    try {
+      const updatedUser = await this.userModel.findByIdAndUpdate(id, user, {
+        new: true,
+      });
+      return updatedUser;
+    } catch (error) {
+      console.log('error en updateUser', error);
+    }
   }
 }
